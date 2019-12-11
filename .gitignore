@@ -1,0 +1,10 @@
+*.db
+
+# Maven target-directory
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+*.iml
