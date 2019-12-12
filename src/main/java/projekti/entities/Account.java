@@ -1,4 +1,4 @@
-package projekti;
+package projekti.entities;
 
 import java.util.ArrayList;
 import java.util.List;

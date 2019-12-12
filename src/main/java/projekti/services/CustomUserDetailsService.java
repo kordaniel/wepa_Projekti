@@ -1,5 +1,7 @@
-package projekti;
+package projekti.services;
 
+import projekti.repositories.AccountRepository;
+import projekti.entities.Account;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
