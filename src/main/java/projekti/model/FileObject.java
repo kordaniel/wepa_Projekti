@@ -15,7 +15,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class ImageObject extends AbstractPersistable<Long> {
+public class FileObject extends AbstractPersistable<Long> {
     
     @CreationTimestamp
     private LocalDateTime createDateTime;
