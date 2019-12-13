@@ -19,7 +19,7 @@
                 <input type="text" th:field="*{fullName}" class="form-control" placeholder="Full name" />
                 <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Errors in username</div>
                 <input type="text" th:field="*{signature}" class="form-control" placeholder="Your public identification string" />
-                <div th:if="${#fields.hasErrors('signature')}" th:errors="*{signature}">Errors in username</div>
+                <div th:if="${#fields.hasErrors('signature')}" th:errors="*{signature}">Errors in username</div>              
                 <button class="btn btn-lg btn-primary btn-block" type="Submit">Create user</button>
             </form>
         </main>

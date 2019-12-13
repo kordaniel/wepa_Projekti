@@ -23,6 +23,17 @@ public class AccountValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Account user = (Account) o;
         
+        if (user == null
+                || user.getUsername() == null
+                || user.getPassword() == null
+                || user.getPasswordConfirm() == null
+                || user.getFullName() == null
+                || user.getSignature() == null) {
+            //ADD: field to html(?)
+            errors.reject("Did not get correct parameters");
+            return;
+        }
+        
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
         if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
             errors.rejectValue("username", "Size.userForm.username");

@@ -13,10 +13,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Profile("production")
+/**
+ * Security profile to be used when no profile is set. For example when
+ * developing on local machine. But beware, this profile is always used
+ * if no profile is set. I'll repeat once more, SET PROFILE TO production
+ * to use the SecureConfiguration.
+ * @author danielko
+ */
+@Profile("default")
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private UserDetailsService userDetailsService;
@@ -24,13 +31,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //disable for h2-console
-        //http.csrf().disable();
+        http.csrf().disable();
         
         //enable frames
-        //http.headers().frameOptions().sameOrigin();
+        http.headers().frameOptions().sameOrigin();
         
         http.authorizeRequests()
-                    .anyRequest().authenticated()
+                    .antMatchers("/**").permitAll()
                     .antMatchers("/h2-console", "/h2-console/**").permitAll()
                     .antMatchers("/registration").permitAll()
                 .and()

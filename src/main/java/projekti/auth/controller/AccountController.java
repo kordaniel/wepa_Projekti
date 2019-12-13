@@ -36,6 +36,10 @@ public class AccountController {
     @PostMapping("/registration")
     public String registration(@ModelAttribute Account accountForm,
             BindingResult bindingResult) {
+        
+        if (accountForm == null) {
+            return "redirect:/registration";
+        }
         accountValidator.validate(accountForm, bindingResult);
         
         if (bindingResult.hasErrors()) {
@@ -74,4 +78,5 @@ public class AccountController {
         model.addAttribute("account", acc);
         return "user/user";
     }
+    
 }
