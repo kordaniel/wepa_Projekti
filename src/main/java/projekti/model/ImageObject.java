@@ -1,9 +1,10 @@
-package projekti.auth.model;
+package projekti.model;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.FetchType;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class Role extends AbstractPersistable<Long> {
+public class ImageObject extends AbstractPersistable<Long> {
     
     @CreationTimestamp
     private LocalDateTime createDateTime;
@@ -25,7 +26,15 @@ public class Role extends AbstractPersistable<Long> {
     @NotEmpty
     private String name;
     
-    @ManyToMany(mappedBy = "roles")
-    private Set<Account> accounts;
+    @NotEmpty
+    private String mediaType;
+    
+    @NotEmpty
+    private Long size;
+    
+    @NotEmpty
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] content;
     
 }
