@@ -8,3 +8,5 @@ target/
 *.ear
 *.logs
 *.iml
+
+nb-configuration.xml

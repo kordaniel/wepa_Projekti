@@ -23,18 +23,18 @@ public class FileObject extends AbstractPersistable<Long> {
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
     
-    @NotEmpty
+    //@NotEmpty
     private String name;
     
-    @NotEmpty
-    private String mediaType;
+    //@NotEmpty
+    private String contentType;
     
-    @NotEmpty
+    //@NotEmpty
     private Long size;
     
-    @NotEmpty
     @Lob
     @Basic(fetch = FetchType.LAZY)
+    //@NotEmpty
     private byte[] content;
     
 }

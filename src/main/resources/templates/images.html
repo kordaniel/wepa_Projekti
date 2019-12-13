@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title='All images')">
+        <title>Title</title>
+    </head>
+    <body>
+         <table>
+            <thead>
+                <tr>
+                    <th>Filename</th><th>Size</th><th>Content-Type</th><th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${images.empty}">
+                    <td colspan="4">No images</td>
+                </tr>
+                <tr th:each="file : ${images}">
+                    <td><a th:href="@{/images/{id}(id=${file.id})}" th:text="${file.name}">file name</a></td>
+                    <td th:text="${file.size}">Size</td>
+                    <td th:text="${file.contentType}">Content type</td>
+                    <td><form th:action="@{/images/{id}(id=${file.id})}" th:method="delete"><input type="submit" value="Delete"/></form></td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Upload image and only image!!</h4>
+        <form method="POST" th:action="@{/images}" enctype="multipart/form-data">
+            <input type="file" name="file" id="file"/>
+            <input type="submit" value="Add!"/>
+        </form>
+    </body>
+</html>
