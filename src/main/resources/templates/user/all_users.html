@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title='Users')">
+        <title>Title</title>
+    </head>
+    <body>
+        <div>TODO write content</div>
+        <ul>
+            <li th:each="account : ${accounts}" th:text="${account.username}">name</li>
+        </ul>
+    </body>
+</html>

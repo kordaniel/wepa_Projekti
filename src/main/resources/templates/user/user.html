@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title=${account.fullName} + ' profile')">
+        <title>Title</title>
+    </head>
+    <body>
+        <ul>
+            <li th:text="${#temporals.format(account.createDateTime, 'dd.MM.YYYY HH:mm')}"></li>
+            <li th:text="${#temporals.format(account.updateDateTime, 'dd.MM.YYYY HH:mm')}"></li>
+            <li th:text="${account.username}">username</li>
+            <li th:text="${account.fullName}">Full name</li>
+            <li th:text="${account.signature}">signature</li>
+        </ul>
+    </body>
+</html>

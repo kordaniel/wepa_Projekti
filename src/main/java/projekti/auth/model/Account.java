@@ -1,14 +1,18 @@
-package projekti.entities;
+package projekti.auth.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,38 +31,38 @@ public class Account extends AbstractPersistable<Long> {
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
     
-    //@NotEmpty
-    //@Size(min = 6, max = 30)
-    private String username;// = "";
+    @NotEmpty
+    @Size(min = 6, max = 32)
+    private String username;
     
-    //@NotEmpty
-    //@Size(min = 8, max = 30)
-    private String password;// = "";
+    @NotEmpty
+    private String password;
     
-    //@NotEmpty
-    //@Size(min = 5, max = 30)
-    private String fullName;// = "";
+    @Transient
+    private String passwordConfirm;
+    
+    @NotEmpty
+    @Size(min = 5, max = 32)
+    private String fullName;
     
     // user provides when she is creating the account, used as
     // the public identification. f.ex. when showing
     // profile page /users/identification
-    //@NotEmpty
-    private String signature;// = "";
+    @NotEmpty
+    @Size(min = 8, max = 8)
+    private String signature;
+    
+    @ManyToMany
+    private Set<Role> roles = new HashSet<>();
     
     @JoinTable(
             name = "account_following",
             joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "following_id", referencedColumnName = "id"))
-    @ManyToMany//(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Account> following = new ArrayList<>();
     
     @ManyToMany(mappedBy = "following")
     private List<Account> followers = new ArrayList<>();
     
-    public Account(String username, String password, String fullName, String signature) {
-        this.username  = username;
-        this.password  = password;
-        this.fullName  = fullName;
-        this.signature = signature;
-    }
 }

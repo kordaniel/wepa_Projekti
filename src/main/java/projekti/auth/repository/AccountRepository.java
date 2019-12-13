@@ -1,6 +1,6 @@
-package projekti.repositories;
+package projekti.auth.repository;
 
-import projekti.entities.Account;
+import projekti.auth.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
