@@ -5,7 +5,7 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
-import javax.validation.constraints.NotEmpty;
+//import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +16,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 public class FileObject extends AbstractPersistable<Long> {
+    // @NotEmpty annotation in this class results in application
+    // crashing. Atleast with H2-database.
     
     @CreationTimestamp
     private LocalDateTime createDateTime;
@@ -32,9 +34,9 @@ public class FileObject extends AbstractPersistable<Long> {
     //@NotEmpty
     private Long size;
     
+    //@NotEmpty
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    //@NotEmpty
     private byte[] content;
     
 }

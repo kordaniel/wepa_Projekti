@@ -12,7 +12,7 @@ import projekti.repository.FileObjectRepository;
 @Service
 public class ImageObjectService {
     
-    private final static String[] SUPPORTED_FILETYPES = new String[]
+    private final static String[] SUPPORTED_MEDIATYPES = new String[]
         {"image/png", "image/jpg", "image/jpeg", "image/gif"};
     
     @Autowired
@@ -20,7 +20,7 @@ public class ImageObjectService {
     
     public void save(MultipartFile multipartFile) throws IOException {
         if (multipartFile == null || multipartFile.isEmpty()
-                || !Arrays.stream(SUPPORTED_FILETYPES).anyMatch(multipartFile.getContentType()::equals)) {
+                || !Arrays.stream(SUPPORTED_MEDIATYPES).anyMatch(multipartFile.getContentType()::equals)) {
             return;
         }
         
