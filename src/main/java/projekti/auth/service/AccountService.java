@@ -9,5 +9,5 @@ public interface AccountService {
     Account findByUsername(String username);
     Account findBySignature(String signature);
     List<Account> findAll();
-    
+    List<Account> findByFullNameContainingIgnoreCase(String fullName);
 }

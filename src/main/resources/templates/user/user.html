@@ -4,6 +4,7 @@
         <title>Title</title>
     </head>
     <body>
+        <h3>Account parameters</h3>
         <ul>
             <li th:text="${#temporals.format(account.createDateTime, 'dd.MM.YYYY HH:mm')}"></li>
             <li th:text="${#temporals.format(account.updateDateTime, 'dd.MM.YYYY HH:mm')}"></li>
@@ -11,5 +12,12 @@
             <li th:text="${account.fullName}">Full name</li>
             <li th:text="${account.signature}">signature</li>
         </ul>
+        <h3>Following</h3>
+        <ol>
+            <li th:each="following : ${account.following}">
+                <span th:text="${following.username}">Following</span>
+            </li>
+        </ol>
+        
     </body>
 </html>

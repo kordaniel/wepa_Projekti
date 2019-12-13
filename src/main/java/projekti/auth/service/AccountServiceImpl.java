@@ -43,5 +43,10 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> findAll() {
         return accountRepository.findAll();
     }
+
+    @Override
+    public List<Account> findByFullNameContainingIgnoreCase(String fullName) {
+        return accountRepository.findByFullNameContainingIgnoreCase(fullName);
+    }
     
 }
