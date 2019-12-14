@@ -1,15 +1,16 @@
 package projekti.model;
 
 import java.time.LocalDateTime;
-import javax.persistence.Basic;
+//import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
+//import javax.persistence.FetchType;
+//import javax.persistence.Lob;
 //import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 //import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.domain.AbstractPersistable;
@@ -37,9 +38,9 @@ public class FileObject extends AbstractPersistable<Long> implements FileObjectI
     private Long size;
     
     //@NotEmpty
-    //@Type(type = "org.hibernate.type.BinaryType") //heroku postgresql
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
+    //@Lob
+    //@Basic(fetch = FetchType.LAZY)
+    @Type(type = "org.hibernate.type.BinaryType") //heroku postgresql
     private byte[] content;
     
 }
