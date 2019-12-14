@@ -8,12 +8,28 @@
         <main class="container">
             <div th:replace="fragments/layout :: menu"></div>
             <h4>All users</h4>
+
+            <div th:if="!${accounts.isEmpty()}">
+              <table class="table">
+                <tr>
+                  <th>Full name</th>
+                  <th>Registered</th>
+                  <th>Follow user</th>
+                </tr>
+                <tr th:each="account : ${accounts}">
+                  <td th:text="${account.fullName}"></td>
+                  <td th:text="${#temporals.format(account.createDateTime, 'dd.MM.YYYY')}"></td>
+                  <td><a class="nav-link" th:href="@{/users/follow/{signature}(signature=${account.signature})}">Follow user</a></td>
+                </tr>
+              </table>
+            </div>
+            <div th:if="${accounts.isEmpty()}">No users found</div>
+
+
+
             <ul>
                 <li th:each="account : ${accounts}" th:text="${account.username}">name</li>
             </ul>
-            <div sec:authorize="isAuthenticated()">authenticated</div>
-
-                <div sec:authorize="isAnonymous()">not</div>
         </main>
     </body>
 </html>

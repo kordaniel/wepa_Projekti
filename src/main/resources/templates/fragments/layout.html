@@ -25,12 +25,15 @@
                 </ul>
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/users/{signature}(signature=${#request.userPrincipal.principal.signature})}">[ My Profile <span th:text="${#request.userPrincipal.principal.fullName}"></span> ]</a>
+                        <a class="nav-link" th:href="@{/users/{signature}(signature=${#request.userPrincipal.principal.signature})}">[ <span th:text="${#request.userPrincipal.principal.fullName}"></span> Profile ]</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
+                    <form id="logoutForm" method="POST" th:action="@{/logout}">
+                        <!--th always adds csrf th<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+                    </form>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/logout}">[ Logout ]</a>
+                        <a class="nav-link" onClick="document.forms['logoutForm'].submit()">[ Logout ]</a>
                     </li>
                 </ul>
                 

@@ -13,13 +13,13 @@
                 <input type="text" th:field="*{username}" class="form-control" placeholder="Username" autofocus="true" />
                 <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Errors in username</div>
                 <input type="password" th:field="*{password}" class="form-control" placeholder="Password" />
-                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Errors in username</div>
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Errors in password</div>
                 <input type="password" th:field="*{passwordConfirm}" class="form-control" placeholder="Confirm your password" />
-                <div th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">Errors in username</div>
+                <div th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">Errors in password confirm</div>
                 <input type="text" th:field="*{fullName}" class="form-control" placeholder="Full name" />
-                <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Errors in username</div>
+                <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Errors in full name</div>
                 <input type="text" th:field="*{signature}" class="form-control" placeholder="Your public identification string" />
-                <div th:if="${#fields.hasErrors('signature')}" th:errors="*{signature}">Errors in username</div>              
+                <div th:if="${#fields.hasErrors('signature')}" th:errors="*{signature}">Errors in signature</div>              
                 <button class="btn btn-lg btn-primary btn-block" type="Submit">Create user</button>
             </form>
         </main>

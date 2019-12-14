@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import projekti.auth.service.AccountService;
 import projekti.auth.service.SecurityService;
@@ -33,9 +32,9 @@ public class AccountController {
     
     
     @PostMapping("/registration")
-    public String registration(@ModelAttribute Account accountForm,
+    public String registration(@ModelAttribute("accountForm") Account accountForm,
             BindingResult bindingResult) {
-        
+        System.out.println("MOI");
         if (accountForm == null) {
             return "redirect:/registration";
         }
@@ -46,9 +45,8 @@ public class AccountController {
         }
         
         accountService.save(accountForm);
-        securityService.autoLogin(accountForm.getUsername(), accountForm.getPassword());
+        securityService.autoLogin(accountForm.getUsername(), accountForm.getPasswordConfirm());
         
-        //TODO: redirect to users page
         return "redirect:/welcome";
     }
     

@@ -31,10 +31,10 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //disable for h2-console
-        http.csrf().disable();
+        //http.csrf().disable();
         
         //enable frames
-        http.headers().frameOptions().sameOrigin();
+        //http.headers().frameOptions().sameOrigin();
         
         http.authorizeRequests()
                     .antMatchers("/**").permitAll()
