@@ -5,9 +5,15 @@
         <title>Title</title>
     </head>
     <body>
-        <div>TODO write content</div>
-        <ul>
-            <li th:each="account : ${accounts}" th:text="${account.username}">name</li>
-        </ul>
+        <main class="container">
+            <div th:replace="fragments/layout :: menu"></div>
+            <h4>All users</h4>
+            <ul>
+                <li th:each="account : ${accounts}" th:text="${account.username}">name</li>
+            </ul>
+            <div sec:authorize="isAuthenticated()">authenticated</div>
+
+                <div sec:authorize="isAnonymous()">not</div>
+        </main>
     </body>
 </html>

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import projekti.auth.service.AccountService;
 import projekti.auth.service.SecurityService;
 import projekti.auth.validator.AccountValidator;
@@ -63,20 +62,6 @@ public class AccountController {
         }
         
         return "auth/login";
-    }
-    
-    @GetMapping("/users")
-    public String allUsers(Model model) {
-        model.addAttribute("accounts", accountService.findAll());
-        return "user/all_users";
-    }
-    
-    @GetMapping("/users/{signature}")
-    public String user(@PathVariable String signature, Model model) {
-        //add error handling
-        Account acc = accountService.findBySignature(signature);
-        model.addAttribute("account", acc);
-        return "user/user";
     }
     
 }

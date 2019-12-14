@@ -2,9 +2,11 @@ package projekti.auth.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -20,10 +22,14 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class Account extends AbstractPersistable<Long> {
+public class Account extends AbstractPersistable<Long> implements UserDetails {
     
     @CreationTimestamp
     private LocalDateTime createDateTime;
@@ -52,7 +58,7 @@ public class Account extends AbstractPersistable<Long> {
     @Size(min = 8, max = 8)
     private String signature;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
     
     @JoinTable(
@@ -64,5 +70,37 @@ public class Account extends AbstractPersistable<Long> {
     
     @ManyToMany(mappedBy = "following")
     private List<Account> followers = new ArrayList<>();
+
+    @Override
+    @Transactional
+    public Collection<GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        
+        for (Role role : getRoles()) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        
+        return grantedAuthorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
     
 }

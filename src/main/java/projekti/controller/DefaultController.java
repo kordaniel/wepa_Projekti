@@ -15,10 +15,7 @@ public class DefaultController {
     @GetMapping({"/", "/welcome"})
     public String helloWorld(Model model) {
         model.addAttribute("message", "World!");
-        /*
-        List<Account> acc = accountService.findByFullNameContainingIgnoreCase("Da");
-        System.out.println("FOUND: " + acc.size());
-        model.addAttribute("search", acc);*/
+        
         return "index";
     }
 }

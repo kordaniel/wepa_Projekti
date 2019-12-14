@@ -4,20 +4,48 @@
         <title>Title</title>
     </head>
     <body>
-        <h3>Account parameters</h3>
-        <ul>
-            <li th:text="${#temporals.format(account.createDateTime, 'dd.MM.YYYY HH:mm')}"></li>
-            <li th:text="${#temporals.format(account.updateDateTime, 'dd.MM.YYYY HH:mm')}"></li>
-            <li th:text="${account.username}">username</li>
-            <li th:text="${account.fullName}">Full name</li>
-            <li th:text="${account.signature}">signature</li>
-        </ul>
-        <h3>Following</h3>
-        <ol>
-            <li th:each="following : ${account.following}">
-                <span th:text="${following.username}">Following</span>
-            </li>
-        </ol>
-        
+        <main class="container">
+            <div th:replace="fragments/layout :: menu"></div>
+            <h4>Account parameters</h4>
+            <table class="table">
+              <tr>
+                <td>Account created</td>
+                <td th:text="${#temporals.format(account.createDateTime, 'dd.MM.YYYY HH:mm')}">created</td>
+              </tr>
+              <tr>
+                <td>Account last updated</td>
+                <td th:text="${#temporals.format(account.updateDateTime, 'dd.MM.YYYY HH:mm')}">updated</td>
+              </tr>
+              <tr>
+                <td>Username</td>
+                <td th:text="${account.username}">username</td>
+              </tr>
+              <tr>
+                <td>Full name</td>
+                <td th:text="${account.fullName}">name</td>
+              </tr>
+              <tr>
+                <td>Public signature</td>
+                <td th:text="${account.signature}">signature</td>
+              </tr>
+            </table>
+            <h4>Following</h4>
+            <div th:if="!${account.following.isEmpty()}">
+              <table class="table">
+                <tr th:each="following : ${account.following}">
+                  <td th:text="${following.fullName}"></td>
+                  <td>link to profile</td>
+                  <td>unfollow</td>
+                </tr>
+              </table>
+            </div>
+            <div th:if="${account.following.isEmpty()}">You are not following anyone</div>
+
+            <ol>
+                <li th:each="following : ${account.following}">
+                    <span th:text="${following.username}">Following</span>
+                </li>
+            </ol>
+        </main>
     </body>
 </html>
