@@ -6,12 +6,12 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 
@@ -60,7 +60,7 @@ public class Account extends AbstractPersistable<Long> implements UserDetails {
     
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
-    
+    /*
     @JoinTable(
             name = "account_following",
             joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
@@ -70,7 +70,14 @@ public class Account extends AbstractPersistable<Long> implements UserDetails {
     
     @ManyToMany(mappedBy = "following")
     private List<Account> followers = new ArrayList<>();
-
+    */
+    
+    @OneToMany(mappedBy = "following")
+    private Set<AccountRelation> following = new HashSet<>();
+    
+    @OneToMany(mappedBy = "follower")
+    private Set<AccountRelation> followers = new HashSet<>();
+    
     @Override
     @Transactional
     public Collection<GrantedAuthority> getAuthorities() {
