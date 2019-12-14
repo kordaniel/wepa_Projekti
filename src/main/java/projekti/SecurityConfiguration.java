@@ -23,7 +23,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //disable for h2-console
         //http.csrf().disable();
         
         //enable frames
@@ -31,7 +30,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         
         http.authorizeRequests()
                     .anyRequest().authenticated()
-                    .antMatchers("/h2-console", "/h2-console/**").permitAll()
                     .antMatchers("/registration").permitAll()
                 .and()
                     .formLogin().permitAll()
@@ -43,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //.defaultSuccessUrl("/")
                 .permitAll().and()
                 .logout().permitAll();
+        
     }
     
     @Autowired
