@@ -38,9 +38,9 @@ public class FileObject extends AbstractPersistable<Long> implements FileObjectI
     private Long size;
     
     //@NotEmpty
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    //@Type(type = "org.hibernate.type.BinaryType") //heroku postgresql
+    //@Lob
+    //@Basic(fetch = FetchType.LAZY)
+    @Type(type = "org.hibernate.type.BinaryType") //heroku postgresql
     private byte[] content;
     
 }

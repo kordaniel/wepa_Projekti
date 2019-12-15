@@ -2,8 +2,8 @@ package projekti.auth.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,14 +22,34 @@ public class AccountRelation extends AbstractPersistable<Long> {
     private LocalDateTime updateDateTime;
     
     //@NotEmpty
-    @ManyToOne
+    @ManyToOne//(fetch = FetchType.EAGER)
+    @JoinColumn(name = "follower_id", nullable = false)
     private Account follower;
     
     //@NotEmpty
-    @ManyToOne
+    @ManyToOne//(fetch = FetchType.EAGER)
+    @JoinColumn(name = "following_id", nullable = false)
     private Account following;
     
-    @NotEmpty
-    private boolean enabled;
+    //@NotEmpty
+    private boolean blocked;
     
+    public boolean getBlocked() {
+        return this.blocked;
+    }
+    /*
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AccountRelation)) return false;
+        
+        AccountRelation other = (AccountRelation) o;
+        
+        return getId() != null && getId().equals(other.getId());
+    }
+    
+    @Override
+    public int hashCode() {
+        return 31;
+    }*/
 }

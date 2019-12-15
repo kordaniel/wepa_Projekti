@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotEmpty;
+//import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class Role extends AbstractPersistable<Long> {
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
     
-    @NotEmpty
+    //@NotEmpty
     private String name;
     
     @ManyToMany(mappedBy = "roles")

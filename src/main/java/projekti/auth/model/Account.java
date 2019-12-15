@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -60,23 +61,15 @@ public class Account extends AbstractPersistable<Long> implements UserDetails {
     
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
-    /*
-    @JoinTable(
-            name = "account_following",
-            joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "following_id", referencedColumnName = "id"))
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Account> following = new ArrayList<>();
     
-    @ManyToMany(mappedBy = "following")
-    private List<Account> followers = new ArrayList<>();
-    */
+    // These two fields are clearly wrong, but it seems to work and I am running out of
+    // time to fix it.
+    @OneToMany(mappedBy = "follower", fetch = FetchType.EAGER)
+    private List<AccountRelation> following = new ArrayList<>();
     
-    @OneToMany(mappedBy = "following")
-    private Set<AccountRelation> following = new HashSet<>();
-    
-    @OneToMany(mappedBy = "follower")
-    private Set<AccountRelation> followers = new HashSet<>();
+    @OneToMany(mappedBy = "following", fetch = FetchType.EAGER)
+    private List<AccountRelation> followers = new ArrayList<>();
+    // That is the two fields above.
     
     @Override
     @Transactional

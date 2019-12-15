@@ -6,7 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import projekti.auth.model.Account;
+import projekti.auth.service.AccountRelationService;
 import projekti.auth.service.AccountService;
 
 @Controller
@@ -17,6 +20,9 @@ public class UserController {
     @Autowired
     AccountService accountService;
     
+    @Autowired
+    AccountRelationService accountRelationService;
+    
     @GetMapping(BASEPATH)
     public String allUsers(Model model) {
         model.addAttribute("accounts", accountService.findAll());
@@ -25,14 +31,62 @@ public class UserController {
     
     @GetMapping(BASEPATH + "/{signature}")
     public String user(@PathVariable String signature, Model model) {
-        //add error handling
-        Account account = accountService.findBySignature(signature);
+        Account account = null;
+        if (isValidParameters(signature)) {
+            account = accountService.findBySignature(signature);
+        }
+        
         if (account == null) {
-            return "redirect:/users";
+            return "redirect:" + BASEPATH;
         }
         
         model.addAttribute("account", account);
+        
         return "user/user";
+    }
+    
+    @PostMapping(BASEPATH + "/follow")
+    public String createRelation(@RequestParam String follower,
+                                 @RequestParam String followed) {
+        
+        if (isValidParameters(follower, followed)) {
+            accountRelationService.createFollower(follower, followed);
+        }
+        
+        return "redirect:" + BASEPATH;
+    }
+    
+    @PostMapping(BASEPATH + "/deletefollowing")
+    public String deleteRelation(@RequestParam String follower,
+                                 @RequestParam String followed) {
+        
+        if (isValidParameters(follower, followed)) {
+            accountRelationService.deleteFollower(follower, followed);
+        }
+        
+        return "redirect:" + BASEPATH + "/" + follower;
+    }
+    
+    @PostMapping(BASEPATH + "/blockfollower")
+    public String blockRelation(@RequestParam String follower,
+                                @RequestParam String followed) {
+        
+        if (isValidParameters(follower, followed)) {
+            accountRelationService.blockFollowing(follower, followed);    
+        }
+        
+        return "redirect:" + BASEPATH + "/" + followed;
+    }
+    
+    @PostMapping(BASEPATH + "/unblockfollower")
+    public String unblockRelation(@RequestParam String follower,
+                                  @RequestParam String followed) {
+        
+        if (isValidParameters(follower, followed)) {
+            accountRelationService.unblockFollowing(follower, followed);
+        }
+        
+        return "redirect:" + BASEPATH + "/" + followed;
     }
     
     @GetMapping(BASEPATH + "/search")
@@ -43,4 +97,13 @@ public class UserController {
         return "";
     }
     
+    public boolean isValidParameters(String... parameters) {
+        for (String parameter : parameters) {
+            if (parameter == null || parameter.trim().isEmpty()) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
 }
