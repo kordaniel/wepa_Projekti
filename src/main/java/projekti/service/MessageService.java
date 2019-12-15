@@ -1,0 +1,44 @@
+package projekti.service;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import projekti.auth.model.Account;
+import projekti.auth.repository.AccountRepository;
+import projekti.model.Message;
+import projekti.repository.MessageRepository;
+
+@Service
+public class MessageService {
+    
+    @Autowired
+    private MessageRepository messageRepository;
+    
+    @Autowired
+    private AccountRepository accountRepository;
+    
+    public List<Message> findByAccountSortedByCreationdate(Account account, int pageNum, int perPage) {
+        //Sorting examples to be found in w3.ex last messages and exams and questions
+        Pageable pageable = PageRequest.of(pageNum, perPage, Sort.by("createDateTime").descending());
+        return messageRepository.findByAccount(account, pageable);
+    }
+    
+    public void create() {
+        Account acc = accountRepository.findBySignature("danielko");
+        Message mess1 = new Message();
+        mess1.setAccount(acc);
+        mess1.setContent("Hello World");
+        messageRepository.save(mess1);
+        Message mess2 = new Message();
+        mess2.setAccount(acc);
+        mess2.setContent("Second message to the woorrllldddddddddddddddddddddd!!!11");
+        messageRepository.save(mess2);
+    }
+    
+    public List<Message> findAll() {
+        return messageRepository.findAll();
+    }
+}
