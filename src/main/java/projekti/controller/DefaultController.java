@@ -6,12 +6,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import static projekti.MyApplication.ANON_USERNAME;
 import projekti.auth.service.AccountService;
 import projekti.service.MessageService;
 
 @Controller
 public class DefaultController {
-    public static final String ANON_USERNAME = "anonymousUser";
     
     @Autowired
     AccountService accountService;

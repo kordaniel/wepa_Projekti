@@ -5,9 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import static projekti.MyApplication.ANON_USERNAME;
 import projekti.auth.model.Account;
 import projekti.auth.repository.AccountRepository;
+import projekti.auth.service.AccountService;
 import projekti.model.Message;
 import projekti.repository.MessageRepository;
 
@@ -18,10 +22,10 @@ public class MessageService {
     private MessageRepository messageRepository;
     
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
     
     public List<Message> findByAccountSignatureSortedByCreationdate(String signature, int pageNum, int perPage) {
-        Account account = accountRepository.findBySignature(signature);
+        Account account = accountService.findBySignature(signature);
         if (account == null) {
             return null;
         }
@@ -35,6 +39,21 @@ public class MessageService {
         return messageRepository.findByAccount(account, pageable);
     }
     
+    public void create(String message) {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String authorizedUsername = securityContext.getAuthentication().getName();
+        
+        if (ANON_USERNAME.equals(authorizedUsername)) {
+            return;
+        }
+        
+        Account poster = accountService.findByUsername(authorizedUsername);
+        Message messageObject = new Message();
+        messageObject.setAccount(poster);
+        messageObject.setContent(message);
+        messageRepository.save(messageObject);
+    }
+    /*
     public void create() {
         Account acc = accountRepository.findBySignature("danielko");
         Message mess1 = new Message();
@@ -45,7 +64,7 @@ public class MessageService {
         mess2.setAccount(acc);
         mess2.setContent("Second message to the woorrllldddddddddddddddddddddd!!!11");
         messageRepository.save(mess2);
-    }
+    }*/
     
     public List<Message> findAll() {
         return messageRepository.findAll();

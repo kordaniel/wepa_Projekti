@@ -12,20 +12,24 @@
             <div th:if="${account != null}">
                 <h3 th:text="${'Hello ' + account.fullName}"></h3>
                 <hr />
+                <form th:action="@{/wall/newmess}" method="POST">
+                    New Message: <input type="text" name="message" />
+                    <input type="submit" value="Post" />
+                </form>
                 <div th:if="${messages != null}">
                     <h4>My latest messages</h4>
                     <table class="table">
                         <tr>
+                            <th>Message</th>
                             <th>Posted By</th>
                             <th>Posted</th>
                             <th>Updated</th>
-                            <th>Message</th>
                         </tr>
                         <tr th:each="message : ${messages}">
+                            <td th:text="${message.content}"></td>
                             <td th:text="${message.account.fullName}"></td>
                             <td th:text="${#temporals.format(message.createDateTime, 'dd.MM.YYYY HH:mm')}"></td>
                             <td th:text="${#temporals.format(message.updateDateTime, 'dd.MM.YYYY HH:mm')}"></td>
-                            <td th:text="${message.content}"></td>
                         </tr>
                     </table>
                 </div>

@@ -1,9 +1,12 @@
 package projekti.controller;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import projekti.auth.service.AccountService;
 import projekti.model.Message;
@@ -20,10 +23,16 @@ public class WallController {
     @Autowired
     MessageService messageService;
     
-    @GetMapping(BASEPATH + "/test")
-    public String testi() {
-        messageService.create();
-        return "redirect:" + BASEPATH;
+    @PostMapping(BASEPATH + "/newmess")
+    public String createMessage(@RequestParam Optional<String> message) {
+        if (message.isPresent()) {
+            String messageStr = message.orElse("").trim();
+            if (!messageStr.isEmpty()) {
+                messageService.create(messageStr);
+            }
+        }
+        
+        return "redirect:/";
     }
     
     @GetMapping(BASEPATH)

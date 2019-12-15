@@ -10,6 +10,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class MyApplication extends SpringBootServletInitializer {
 
+    public static final String ANON_USERNAME = "anonymousUser";
+    
     @PostConstruct
     public void started() {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Helsinki"));
