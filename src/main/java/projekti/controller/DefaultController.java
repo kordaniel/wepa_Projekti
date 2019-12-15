@@ -13,9 +13,9 @@ public class DefaultController {
         
         return "index";
     }
-    /*
+    
     @GetMapping("*")
     public String redirect() {
         return "redirect:/";
-    }*/
+    }
 }

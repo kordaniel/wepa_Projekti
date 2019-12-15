@@ -8,8 +8,17 @@
     <body>
         <main class="container">
             <div th:replace="fragments/layout :: menu"></div>
-            <h4>All users</h4>
-
+            
+            <h3>Users</h3>
+            <hr />
+            <h4>Search</h4>
+            <form th:action="@{/users/search}" method="get">
+                Search by name or username: <input type="text" name="nameusername" />
+                <input type="submit" value="Search for user" />
+            </form>
+            <hr />
+            
+            <h4>Users found</h4>
             <div th:if="!${accounts.isEmpty()}">
               <table class="table">
                 <tr>

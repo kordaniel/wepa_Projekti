@@ -1,6 +1,7 @@
 package projekti.controller;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,21 @@ public class UserController {
     public String allUsers(Model model) {
         model.addAttribute("accounts", accountService.findAll());
         return "user/all_users";
+    }
+    
+    @GetMapping(BASEPATH + "/search")
+    public String usersBySearch(Model model, @RequestParam Optional<String> nameusername) {
+        if (nameusername.isPresent()) {
+            String searchString = nameusername.orElse("");
+            
+            if (isValidParameters(searchString)) {
+                model.addAttribute("accounts", accountService.
+                        findByFullNameContainingIgnoreCaseOrUsernameContainingIgnoreCase(searchString));
+                return "user/all_users";
+            }
+        }
+        
+        return "redirect:" + BASEPATH;
     }
     
     @GetMapping(BASEPATH + "/{signature}")
@@ -87,14 +103,6 @@ public class UserController {
         }
         
         return "redirect:" + BASEPATH + "/" + followed;
-    }
-    
-    @GetMapping(BASEPATH + "/search")
-    public String findUser(Model model) {
-        List<Account> accounts = accountService.findByFullNameContainingIgnoreCase("Da");
-        model.addAttribute("accounts", accounts);
-        
-        return "";
     }
     
     public boolean isValidParameters(String... parameters) {

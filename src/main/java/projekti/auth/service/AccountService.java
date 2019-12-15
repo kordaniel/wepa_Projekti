@@ -10,4 +10,5 @@ public interface AccountService {
     Account findBySignature(String signature);
     List<Account> findAll();
     List<Account> findByFullNameContainingIgnoreCase(String fullName);
+    List<Account> findByFullNameContainingIgnoreCaseOrUsernameContainingIgnoreCase(String searchWord);
 }
