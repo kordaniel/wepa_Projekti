@@ -1,15 +1,33 @@
 package projekti.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import projekti.auth.service.AccountService;
+import projekti.service.MessageService;
 
 @Controller
 public class DefaultController {
-
+    public static final String ANON_USERNAME = "anonymousUser";
+    
+    @Autowired
+    AccountService accountService;
+    
+    @Autowired
+    MessageService messageService;
+    
     @GetMapping({"/", "/welcome"})
     public String helloWorld(Model model) {
-        model.addAttribute("message", "World!");
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String authorizedUsername = securityContext.getAuthentication().getName();
+        
+        if (!ANON_USERNAME.equals(authorizedUsername)) {
+            model.addAttribute("account", accountService.findBySignature(authorizedUsername));
+            model.addAttribute("messages", messageService.findByAccountSignatureSortedByCreationdate(authorizedUsername, 0, 25));
+        }
         
         return "index";
     }

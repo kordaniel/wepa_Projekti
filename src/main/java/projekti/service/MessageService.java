@@ -20,6 +20,15 @@ public class MessageService {
     @Autowired
     private AccountRepository accountRepository;
     
+    public List<Message> findByAccountSignatureSortedByCreationdate(String signature, int pageNum, int perPage) {
+        Account account = accountRepository.findBySignature(signature);
+        if (account == null) {
+            return null;
+        }
+        
+        return findByAccountSortedByCreationdate(account, pageNum, perPage);
+    }
+    
     public List<Message> findByAccountSortedByCreationdate(Account account, int pageNum, int perPage) {
         //Sorting examples to be found in w3.ex last messages and exams and questions
         Pageable pageable = PageRequest.of(pageNum, perPage, Sort.by("createDateTime").descending());

@@ -6,10 +6,36 @@
     <body>
         <main class="container">
             <div th:replace="fragments/layout :: menu"></div>
-            <h1 th:text="${'Hello ' + message}">Hello world</h1>
-            <ul>
-                <li th:each="account : ${search}" th:text="${account.username}">name</li>
-            </ul>
+            <h1>Welcome to Wepa-Twitter</h1>
+            <hr />
+            
+            <div th:if="${account != null}">
+                <h3 th:text="${'Hello ' + account.fullName}"></h3>
+                <hr />
+                <div th:if="${messages != null}">
+                    <h4>My latest messages</h4>
+                    <table class="table">
+                        <tr>
+                            <th>Posted By</th>
+                            <th>Posted</th>
+                            <th>Updated</th>
+                            <th>Message</th>
+                        </tr>
+                        <tr th:each="message : ${messages}">
+                            <td th:text="${message.account.fullName}"></td>
+                            <td th:text="${#temporals.format(message.createDateTime, 'dd.MM.YYYY HH:mm')}"></td>
+                            <td th:text="${#temporals.format(message.updateDateTime, 'dd.MM.YYYY HH:mm')}"></td>
+                            <td th:text="${message.content}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div th:if="${account == null}">
+                <h3>Hello there</h3>
+                <span>
+                    This application provides a lot of nice features, but you need to create an account to be able to use them. Please use the <a th:href="@{/registration}">registration link</a>, it's completely free! If you already have an account, please <a th:href="@{/login}">login</a> to continue using this application.
+                </span>
+            </div>
         </main>
     </body>
 </html>
