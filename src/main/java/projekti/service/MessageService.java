@@ -8,12 +8,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import static projekti.MyApplication.ANON_USERNAME;
 import projekti.auth.model.Account;
-import projekti.auth.repository.AccountRepository;
 import projekti.auth.service.AccountService;
 import projekti.model.Message;
 import projekti.repository.MessageRepository;
+import static projekti.MyApplication.ANON_USERNAME;
 
 @Service
 public class MessageService {
@@ -24,8 +23,17 @@ public class MessageService {
     @Autowired
     private AccountService accountService;
     
-    public List<Message> findByAccountSignatureSortedByCreationdate(String signature, int pageNum, int perPage) {
-        Account account = accountService.findBySignature(signature);
+    public List<Message> findByAccountUsernameFollowing(String accountUsername, int pageNum, int perPage) {
+        Account account = accountService.findByUsername(accountUsername);
+        //List<AccountRelation> following = account.getActiveFollowing();
+        List<Account> messagesByAccounts = account.getActiveFollowing();
+        messagesByAccounts.add(account);
+        
+        return messageRepository.findByAccountIn(messagesByAccounts, getPageableByCreationDateDescending(pageNum, perPage));
+    }
+    
+    public List<Message> findByAccountUsernameSortedByCreationdate(String username, int pageNum, int perPage) {
+        Account account = accountService.findByUsername(username);
         if (account == null) {
             return null;
         }
@@ -35,8 +43,8 @@ public class MessageService {
     
     public List<Message> findByAccountSortedByCreationdate(Account account, int pageNum, int perPage) {
         //Sorting examples to be found in w3.ex last messages and exams and questions
-        Pageable pageable = PageRequest.of(pageNum, perPage, Sort.by("createDateTime").descending());
-        return messageRepository.findByAccount(account, pageable);
+        //Pageable pageable = PageRequest.of(pageNum, perPage, Sort.by("createDateTime").descending());
+        return messageRepository.findByAccount(account, getPageableByCreationDateDescending(pageNum, perPage));
     }
     
     public void create(String message) {
@@ -53,20 +61,16 @@ public class MessageService {
         messageObject.setContent(message);
         messageRepository.save(messageObject);
     }
-    /*
-    public void create() {
-        Account acc = accountRepository.findBySignature("danielko");
-        Message mess1 = new Message();
-        mess1.setAccount(acc);
-        mess1.setContent("Hello World");
-        messageRepository.save(mess1);
-        Message mess2 = new Message();
-        mess2.setAccount(acc);
-        mess2.setContent("Second message to the woorrllldddddddddddddddddddddd!!!11");
-        messageRepository.save(mess2);
-    }*/
     
     public List<Message> findAll() {
         return messageRepository.findAll();
+    }
+    
+    public Message getOne(Long id) {
+        return messageRepository.getOne(id);
+    }
+    
+    private Pageable getPageableByCreationDateDescending(int pageNum, int perPage) {
+        return PageRequest.of(pageNum, perPage, Sort.by("createDateTime").descending());
     }
 }

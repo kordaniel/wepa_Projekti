@@ -6,11 +6,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -30,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import projekti.model.Album;
 import projekti.model.Message;
+import projekti.model.MessageLike;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
@@ -68,17 +68,31 @@ public class Account extends AbstractPersistable<Long> implements UserDetails {
     @OneToMany(mappedBy = "account")
     private List<Message> messages = new ArrayList<>();
     
+    @OneToMany(mappedBy = "account")
+    private List<MessageLike> messageLikes = new ArrayList<>();
+    
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
     
-    // These two fields are clearly wrong, but it seems to work and I am running out of
-    // time to fix it.
     @OneToMany(mappedBy = "follower", fetch = FetchType.EAGER)
     private List<AccountRelation> following = new ArrayList<>();
     
     @OneToMany(mappedBy = "following", fetch = FetchType.EAGER)
     private List<AccountRelation> followers = new ArrayList<>();
-    // That is the two fields above.
+    
+    public List<Account> getActiveFollowing() {
+        return following.stream()
+                .filter(accrel -> !accrel.getBlocked())
+                .map(accrel -> accrel.getFollowing())
+                .collect(Collectors.toList());
+    }
+    
+    public List<Account> getActiveFollowers() {
+        return followers.stream()
+                .filter(accrel -> !accrel.getBlocked())
+                .map(accrel -> accrel.getFollower())
+                .collect(Collectors.toList());
+    }
     
     @Override
     @Transactional

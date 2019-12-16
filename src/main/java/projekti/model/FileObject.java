@@ -18,7 +18,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 //@Profile("default")
-public class FileObject extends AbstractPersistable<Long> implements FileObjectInterface {
+public class FileObject extends AbstractPersistable<Long> {
     // @NotEmpty annotation in this class results in application
     // crashing. Atleast with H2-database.
     

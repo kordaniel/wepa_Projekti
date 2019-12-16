@@ -37,6 +37,7 @@
                     <th>Full name</th>
                     <th>Followed since</th>
                     <th>Unfollow</th>
+                    <th>Blocked from following</th>
                   </tr>
                 <tr th:each="accRel : ${account.following}">
                     <td>
@@ -50,6 +51,7 @@
                           <input type="submit" value="Unfollow" />
                         </form>
                     </td>
+                    <td th:text="${accRel.blocked} ? 'YES' : 'NO'" />
                 </tr>
               </table>
             </div>

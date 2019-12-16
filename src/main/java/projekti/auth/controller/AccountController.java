@@ -34,7 +34,7 @@ public class AccountController {
     @PostMapping("/registration")
     public String registration(@ModelAttribute("accountForm") Account accountForm,
             BindingResult bindingResult) {
-        System.out.println("MOI");
+        
         if (accountForm == null) {
             return "redirect:/registration";
         }

@@ -25,8 +25,8 @@ public class DefaultController {
         String authorizedUsername = securityContext.getAuthentication().getName();
         
         if (!ANON_USERNAME.equals(authorizedUsername)) {
-            model.addAttribute("account", accountService.findBySignature(authorizedUsername));
-            model.addAttribute("messages", messageService.findByAccountSignatureSortedByCreationdate(authorizedUsername, 0, 25));
+            model.addAttribute("account", accountService.findByUsername(authorizedUsername));
+            model.addAttribute("messages", messageService.findByAccountUsernameFollowing(authorizedUsername, 0, 25));
         }
         
         return "index";

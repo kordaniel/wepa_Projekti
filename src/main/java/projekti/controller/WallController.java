@@ -1,15 +1,11 @@
 package projekti.controller;
 
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import projekti.auth.service.AccountService;
-import projekti.model.Message;
+import projekti.service.MessageLikeService;
 import projekti.service.MessageService;
 
 @Controller
@@ -18,10 +14,19 @@ public class WallController {
     static final String BASEPATH = "/wall";
     
     @Autowired
-    AccountService accountService;
+    private MessageService messageService;
     
     @Autowired
-    MessageService messageService;
+    private MessageLikeService messageLikeService;
+    
+    @PostMapping(BASEPATH + "/like")
+    public String likeMessage(@RequestParam Optional<Long> messageId) {
+        if (messageId.isPresent()) {
+            messageLikeService.addNewLike(messageId.get());
+        }
+        
+        return "redirect:/";
+    }
     
     @PostMapping(BASEPATH + "/newmess")
     public String createMessage(@RequestParam Optional<String> message) {
@@ -35,18 +40,4 @@ public class WallController {
         return "redirect:/";
     }
     
-    @GetMapping(BASEPATH)
-    @ResponseBody
-    public String listaa() {
-        //List<Message> messages = messageService.findAll();
-        List<Message> messages = accountService.findBySignature("danielko").getMessages();
-        String palautus = "";
-        for (Message message : messages) {
-            palautus += message.getCreateDateTime() + "\n"
-                    + message.getContent() + "\n"
-                    + message.getAccount().getSignature() + "\n"
-                    + "--------------------------------------\n";
-        }
-        return palautus;
-    }
 }

@@ -1,9 +1,13 @@
 package projekti.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +29,17 @@ public class Message extends AbstractPersistable<Long> {
     @ManyToOne
     private Account account;
     
+    //not tested, which way does the orphanRemoval work. Should be that if the
+    //message is deleted, then the messageLikes also get deleted, not the other
+    //way around!!
+    @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MessageLike> likes = new ArrayList<>();
+    
     @Column(length = 32767)
     private String content;
+    
+    public int getLikesCount() {
+        return likes.size();
+    }
+    
 }

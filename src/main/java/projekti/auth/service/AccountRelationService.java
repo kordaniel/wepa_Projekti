@@ -1,6 +1,7 @@
 package projekti.auth.service;
 
 import java.util.List;
+import java.util.Objects;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,11 +44,11 @@ public class AccountRelationService {
             return;
         }
 
-        /*
+        
         // Prevent user from following themselves
         if (Objects.equals(accFollower.getId(), accFollowed.getId())) {
             return;
-        }*/
+        }
         
         AccountRelation relation = new AccountRelation();
         relation.setFollower(accFollower);

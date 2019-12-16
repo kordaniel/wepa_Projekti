@@ -8,7 +8,7 @@
             <div th:replace="fragments/layout :: menu"></div>
             <h1>Welcome to Wepa-Twitter</h1>
             <hr />
-            
+
             <div th:if="${account != null}">
                 <h3 th:text="${'Hello ' + account.fullName}"></h3>
                 <hr />
@@ -24,12 +24,21 @@
                             <th>Posted By</th>
                             <th>Posted</th>
                             <th>Updated</th>
+                            <th>Likes</th>
+                            <th>Like</th>
                         </tr>
                         <tr th:each="message : ${messages}">
                             <td th:text="${message.content}"></td>
                             <td th:text="${message.account.fullName}"></td>
                             <td th:text="${#temporals.format(message.createDateTime, 'dd.MM.YYYY HH:mm')}"></td>
                             <td th:text="${#temporals.format(message.updateDateTime, 'dd.MM.YYYY HH:mm')}"></td>
+                            <td th:text="${message.getLikesCount()}">10</td>
+                            <td>
+                              <form th:action="@{/wall/like}" method="POST">
+                                  <input type="hidden" th:name="messageId" th:value="${message.id}" />
+                                  <input type="submit" value="Like" />
+                              </form>
+                            </td>
                         </tr>
                     </table>
                 </div>
