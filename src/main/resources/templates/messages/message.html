@@ -17,6 +17,7 @@
           </form>
           <p>Comments are always anonymous (not sure if this actually was the intention in the project requirements, seems a bit odd..(?))</p>
           <hr />
+          <p>This message has been commented <span th:text="${comments.size()}" /> times. Showing 10 latest comments.</p>
           <table th:if="${comments != null}" class="table">
             <tr>
               <th>Comment</th>

@@ -1,7 +1,12 @@
 package projekti.service;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import projekti.auth.model.Account;
@@ -30,9 +35,12 @@ public class AlbumService {
             MultipartFile multipartFile) throws IOException {
         
         Album album = albumRepository.getOne(albumId);
-        if (album != null) {
-            imageObjectService.saveAlbumImage(multipartFile, album);
+        
+        if (album == null || album.getImages().size() >= 10) {
+            return;
         }
+        
+        imageObjectService.saveAlbumImage(multipartFile, album);
     }
     
     public Album getOne(Long id) {

@@ -7,4 +7,5 @@ import projekti.model.Album;
 public interface AlbumRepository extends JpaRepository<Album, Long> {
     
     Album findByAccount(Account account);
+    
 }

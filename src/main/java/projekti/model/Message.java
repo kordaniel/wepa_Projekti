@@ -42,7 +42,17 @@ public class Message extends AbstractPersistable<Long> {
     private String content;
     
     public int getLikesCount() {
+        if (likes == null) {
+            return 0;
+        }
         return likes.size();
+    }
+    
+    public int getCommentsCount() {
+        if (comments == null) {
+            return 0;
+        }
+        return comments.size();
     }
     
 }

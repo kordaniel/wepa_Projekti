@@ -16,14 +16,33 @@
                     New Message: <input type="text" name="message" />
                     <input type="submit" value="Post" />
                 </form>
+                <div th:if="${images != null}">
+                  <h4>10 latest images in my flow</h4>
+                  <table class="table">
+                    <tr>
+                      <th>image</th>
+                      <th>kolumni</th>
+                    </tr>
+                    <tr th:each="image : ${images}">
+                      <td>
+                      <a th:href="@{/images/{id}(id=${image.id})}">
+                        <img th:src="@{/images/{id}(id=${image.id})}" th:alt="${image.name}" style="width:100px;height750px;"/>
+                      </a>
+                    </td>
+                    <td th:text="${image.name}">
+                    </td>
+                    </tr>
+                  </table>
+                </div>
                 <div th:if="${messages != null}">
-                    <h4>My latest messages</h4>
+                    <h4>25 Latest messages in my flow</h4>
                     <table class="table">
                         <tr>
                             <th>Message</th>
                             <th>Posted By</th>
                             <th>Posted</th>
                             <th>Updated</th>
+                            <th>Comments</th>
                             <th>Likes</th>
                             <th>Like</th>
                         </tr>
@@ -34,6 +53,7 @@
                             <td th:text="${message.account.fullName}"></td>
                             <td th:text="${#temporals.format(message.createDateTime, 'dd.MM.YYYY HH:mm')}"></td>
                             <td th:text="${#temporals.format(message.updateDateTime, 'dd.MM.YYYY HH:mm')}"></td>
+                            <td th:text="${message.getCommentsCount()}" />
                             <td th:text="${message.getLikesCount()}">10</td>
                             <td>
                               <form th:action="@{/wall/like}" method="POST">
