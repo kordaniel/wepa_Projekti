@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title='Message discussion')">
+        <title>Title</title>
+    </head>
+    <body>
+      <main class="container">
+        <div th:replace="fragments/layout :: menu"></div>
+          <h1>Message</h1>
+          <hr />
+          <span th:text=${message.content} />
+          <hr />
+          <h3>Discussion about message</h3>
+          <form th:action="@{/wall/{messageId}/newComment(messageId=${message.id})}" method="POST">
+            New Comment: <input type="text" name="comment" />
+            <input type="submit" value="Post" />
+          </form>
+          <p>Comments are always anonymous (not sure if this actually was the intention in the project requirements, seems a bit odd..(?))</p>
+          <hr />
+          <table th:if="${comments != null}" class="table">
+            <tr>
+              <th>Comment</th>
+              <th>Posted</th>
+            </tr>
+            <tr th:each="comment : ${comments}">
+              <td th:text=${comment.comment} />
+              <td th:text="${#temporals.format(comment.createDateTime, 'dd.MM.YYYY HH:mm')}"></td>
+            </tr>
+          </table>
+          <p th:if="${comments == null}">No comments for message</p>
+
+      </main>
+    </body>
+</html>

@@ -7,6 +7,7 @@ This project is created as an exercise for the course  _Web palvelinohjelmointi,
 
 ## Known bugs
   * Serving static content does not work at all.
+  * When the application is running under heroku, after login the user does not get redirected to the main page, but instead the images html-file gets served as static text.
   * (less of these now) Atleast locally under development SecurityConfiguration, with relaxed access permissions, the application will print long ugly error messages in various views when the user is not logged in. No checks implemented in the thymeleaf templates for user authentication, for example when listing all users under /users.  
   * The class FileObject.java located in the package projekti.model has the field private byte[] content. The annotation for this field needs to be set manually.  
    * If running in heroku use @Type(type = "org.hibernate.type.BinaryType") and when running locally with H2 use @Lob @Basic(fetch = FetchType.LAZY)  

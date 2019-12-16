@@ -28,7 +28,9 @@
                             <th>Like</th>
                         </tr>
                         <tr th:each="message : ${messages}">
-                            <td th:text="${message.content}"></td>
+                            <td>
+                              <a th:href="@{/wall/{id}(id=${message.id})}"><span th:text="${message.content}"/></a>
+                            </td>
                             <td th:text="${message.account.fullName}"></td>
                             <td th:text="${#temporals.format(message.createDateTime, 'dd.MM.YYYY HH:mm')}"></td>
                             <td th:text="${#temporals.format(message.updateDateTime, 'dd.MM.YYYY HH:mm')}"></td>

@@ -35,6 +35,9 @@ public class Message extends AbstractPersistable<Long> {
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MessageLike> likes = new ArrayList<>();
     
+    @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MessageComment> comments = new ArrayList<>();
+    
     @Column(length = 32767)
     private String content;
     

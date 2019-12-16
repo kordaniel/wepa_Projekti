@@ -25,7 +25,7 @@ public class MessageService {
     
     public List<Message> findByAccountUsernameFollowing(String accountUsername, int pageNum, int perPage) {
         Account account = accountService.findByUsername(accountUsername);
-        //List<AccountRelation> following = account.getActiveFollowing();
+    
         List<Account> messagesByAccounts = account.getActiveFollowing();
         messagesByAccounts.add(account);
         
