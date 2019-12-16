@@ -12,17 +12,35 @@
           <h3>Upload new image</h3>
           <p>Supported filetypes: jpg, jpeg, png, gif</p>
           <form method="POST" th:action="@{/album/{id}/newimage(id=${album.id})}" enctype="multipart/form-data">
-              <input type="file" name="file" id="file"/>
-              <input type="submit" value="Add!"/>
+              File: <input type="file" name="file" id="file" /><br />
+              Comment: <input type="text" name="comment" />
+              <input type="submit" value="Add image!"/>
           </form>
 
-            <div th:each="image : ${album.images}">
-              <a th:href="@{/images/{id}(id=${image.id})}">
-                <img th:src="@{/images/{id}(id=${image.id})}" th:alt="${image.name}" style="width:100px;height750px;"/>
-              </a>
-              <span th:text="${image.name}" />
+          <div th:if="${album.images != null}">
+            <div th:if="!${album.images.isEmpty()}">
+              <table class="table">
+                <tr>
+                  <th>Image</th>
+                  <th>Filename</th>
+                  <th>Message</th>
+                </tr>
+                <tr th:each="image : ${album.images}">
+                  <td>
+                  <a th:href="@{/images/{id}(id=${image.id})}">
+                    <img th:src="@{/images/{id}(id=${image.id})}" th:alt="${image.name}" style="width:100px;height750px;"/>
+                  </a>
+                </td>
+                <td th:text="${image.name}" />
+                <td th:text="${image.comment}">
+                </td>
+                </tr>
+              </table>
             </div>
-
+            <div th:if="${album.images.isEmpty()}">
+              You haven't added any images to your album
+            </div>
+          </div>
         </div>
 
         <div th:if="${album == null}">

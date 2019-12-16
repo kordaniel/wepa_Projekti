@@ -47,15 +47,14 @@ public class AlbumController {
     
     @PostMapping(BASEPATH + "/{albumId}/newimage")
     public String create(@PathVariable Optional<Long> albumId,
-                         @RequestParam("file") MultipartFile file) throws IOException {
-        if (!albumId.isPresent()) {
+                         @RequestParam("file") Optional<MultipartFile> file,
+                         @RequestParam Optional<String> comment) throws IOException {
+        if (!albumId.isPresent() || !file.isPresent() || !comment.isPresent()) {
             return "redirect:/";
         }
         
         Long albmId = albumId.get();
-        if (file != null) {
-            albumService.saveImageToAlbum(albmId, file);
-        }
+        albumService.saveImageToAlbum(albmId, file.get(), comment.get());
         
         return "redirect:" + BASEPATH + "/" + albmId;
     }
