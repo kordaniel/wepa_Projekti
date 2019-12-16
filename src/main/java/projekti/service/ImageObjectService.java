@@ -65,6 +65,10 @@ public class ImageObjectService {
         return fileObjectRepository.save(fo);
     }
     
+    public void deleteImage(Long id) {
+        fileObjectRepository.deleteById(id);
+    }
+    
     public void save(MultipartFile multipartFile) throws IOException {
         if (multipartFile == null || multipartFile.isEmpty()
                 || !Arrays.stream(SUPPORTED_MEDIATYPES).anyMatch(multipartFile.getContentType()::equals)) {

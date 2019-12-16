@@ -1,6 +1,7 @@
 package projekti.controller;
 
 import java.io.IOException;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,5 +51,18 @@ public class ImageFileController {
         }
         
         return new ResponseEntity<>(fo.getContent(), headers, HttpStatus.CREATED);
+    }
+    
+    @PostMapping("/images/delete/{id}")
+    public String deleteImage(@PathVariable Optional<Long> id,
+                              @RequestParam Optional<Long> albumId) {
+        if (id.isPresent()) {
+            imageObjectService.deleteImage(id.get());
+        }
+        if (!albumId.isPresent()) {
+            return "redirect:/";
+        }
+        
+        return "redirect:/album/" + albumId.get();
     }
 }
