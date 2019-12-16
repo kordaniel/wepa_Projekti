@@ -1,11 +1,15 @@
 package projekti.model;
 
 import java.time.LocalDateTime;
-import javax.persistence.Basic;
+import java.util.ArrayList;
+import java.util.List;
+//import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
+//import javax.persistence.FetchType;
+//import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,9 +39,28 @@ public class FileObject extends AbstractPersistable<Long> {
     @ManyToOne
     private Album album;
     
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    //@Type(type = "org.hibernate.type.BinaryType") //heroku postgresql
-    private byte[] content;
+    //@OneToMany(mappedBy = "fileobject", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<ImageComment> comments = new ArrayList<>();
     
+    @OneToMany(mappedBy = "fileobject", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageLike> likes = new ArrayList<>();
+    
+    //@Lob
+    //@Basic(fetch = FetchType.LAZY)
+    @Type(type = "org.hibernate.type.BinaryType") //heroku postgresql
+    private byte[] content;
+    /*
+    public int getCommentsCount() {
+        if (comments == null) {
+            return 0;
+        }
+        return comments.size();
+    }*/
+    
+    public int getLikesCount() {
+        if (likes == null) {
+            return 0;
+        }
+        return likes.size();
+    }
 }
