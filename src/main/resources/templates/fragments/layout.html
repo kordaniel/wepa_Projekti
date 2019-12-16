@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
         <link rel="stylesheet" th:href="@{/css/style.css}" />
-        
+
     </head>
     <body>
         <div th:fragment="menu">
@@ -18,7 +18,7 @@
                         <a class="nav-link" th:href="@{/}">[ Main page ]</a>
                     </li>
                 </ul>
-                
+
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/users}">[ All users ]</a>
@@ -31,7 +31,7 @@
                 </ul>
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/users/{signature}(signature=${#request.userPrincipal.principal.signature})}">[ My album ]</a>
+                        <a class="nav-link" th:href="@{/album/user/{signature}(signature=${#request.userPrincipal.principal.signature})}">[ My album ]</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
@@ -41,8 +41,8 @@
                         <a class="nav-link" onClick="document.forms['logoutForm'].submit()">[ Logout ]</a>
                     </li>
                 </ul>
-                
-                
+
+
                 <ul class="navbar-nav" sec:authorize="isAnonymous()">
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/login}">[ Login ]</a>
@@ -55,7 +55,7 @@
                 </ul>
             </nav>
         </div>
-        
+
         <footer th:fragment="footer">
             <script th:src="@{/javascript/code.js}" defer></script>
         </footer>

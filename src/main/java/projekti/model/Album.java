@@ -30,14 +30,10 @@ public class Album extends AbstractPersistable<Long> {
     
     private String name;
     
-    @OneToOne
+    @OneToOne(mappedBy = "album")
     private Account account;
     
     @OneToMany(mappedBy = "album")
-    private List<ImageComment> imageComments = new ArrayList<>();
-    
-    public boolean isFull() {
-        return imageComments.size() >= MAX_NUM_ENTRIES;
-    }
+    private List<FileObject> images = new ArrayList<>();
     
 }

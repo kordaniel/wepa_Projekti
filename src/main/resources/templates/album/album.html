@@ -1,9 +1,28 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/layout :: head(title='Vanhan kansan Twitter')">
+    <head th:replace="fragments/layout :: head(title='My album')">
         <title>Title</title>
     </head>
     <body>
-        <div>TODO write content</div>
+      <main class="container">
+        <div th:replace="fragments/layout :: menu"></div>
+        <div th:if="${album != null}">
+          <h1 th:text="${album.name}"></h1>
+          <hr />
+          <h3>Upload new image</h3>
+          <p>Supported filetypes: jpg, jpeg, png, gif</p>
+          <form method="POST" th:action="@{/album/{id}/newimage(id=${album.id})}" enctype="multipart/form-data">
+              <input type="file" name="file" id="file"/>
+              <input type="submit" value="Add!"/>
+          </form>
+          <ol>
+            <li th:each="image : ${album.images}"><span th:text="${image.name}" /></li>
+          <hr />
+        </div>
+
+        <div th:if="${album == null}">
+          <h1>No album found</h1>
+        </div>
+      </main>
     </body>
 </html>

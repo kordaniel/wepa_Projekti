@@ -62,7 +62,7 @@ public class Account extends AbstractPersistable<Long> implements UserDetails {
     @Size(min = 8, max = 8)
     private String signature;
     
-    @OneToOne(mappedBy = "account")
+    @OneToOne
     private Album album;
     
     @OneToMany(mappedBy = "account")

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import projekti.model.Album;
 import projekti.model.FileObject;
 import projekti.repository.FileObjectRepository;
 
@@ -17,6 +18,22 @@ public class ImageObjectService {
     
     @Autowired
     FileObjectRepository fileObjectRepository;
+    
+    public FileObject saveAlbumImage(MultipartFile multipartFile, Album album) throws IOException {
+        if (multipartFile == null || multipartFile.isEmpty()
+                || !Arrays.stream(SUPPORTED_MEDIATYPES).anyMatch(multipartFile.getContentType()::equals)) {
+            return null;
+        }
+        
+        FileObject fo = new FileObject();
+        fo.setName(multipartFile.getOriginalFilename());
+        fo.setContentType(multipartFile.getContentType());
+        fo.setSize(multipartFile.getSize());
+        fo.setContent(multipartFile.getBytes());
+        fo.setAlbum(album);
+        
+        return fileObjectRepository.save(fo);
+    }
     
     public void save(MultipartFile multipartFile) throws IOException {
         if (multipartFile == null || multipartFile.isEmpty()

@@ -5,9 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import projekti.auth.model.Account;
 import projekti.auth.repository.AccountRepository;
 import projekti.auth.repository.RoleRepository;
+import projekti.model.Album;
+import projekti.service.AlbumService;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -21,11 +24,22 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     PasswordEncoder passwordEncoder;
     
+    @Autowired
+    AlbumService albumService;
+    
     @Override
+    @Transactional
     public void save(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         account.setRoles(new HashSet<>(roleRepository.findAll()));
         account.setSignature(account.getSignature().replaceAll("\\s", ""));
+        
+        Album accountAlbum = new Album();
+        accountAlbum.setName(account.getFullName() + "s album");
+        albumService.save(accountAlbum);
+        
+        account.setAlbum(accountAlbum);
+        
         accountRepository.save(account);
     }
     
