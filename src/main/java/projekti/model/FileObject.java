@@ -1,11 +1,11 @@
 package projekti.model;
 
 import java.time.LocalDateTime;
-import javax.persistence.Basic;
+//import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
+//import javax.persistence.FetchType;
+//import javax.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,9 +33,9 @@ public class FileObject extends AbstractPersistable<Long> {
     @ManyToOne
     private Album album;
     
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    //@Type(type = "org.hibernate.type.BinaryType") //heroku postgresql
+    //@Lob
+    //@Basic(fetch = FetchType.LAZY)
+    @Type(type = "org.hibernate.type.BinaryType") //heroku postgresql
     private byte[] content;
     
 }
