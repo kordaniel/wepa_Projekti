@@ -19,6 +19,8 @@ import projekti.service.ImageObjectService;
 @Controller
 public class ImageFileController {
     
+    public static final String BASEPATH = "/images";
+    
     @Autowired
     ImageObjectService imageObjectService;
     

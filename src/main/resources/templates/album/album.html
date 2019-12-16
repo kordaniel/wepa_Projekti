@@ -15,9 +15,14 @@
               <input type="file" name="file" id="file"/>
               <input type="submit" value="Add!"/>
           </form>
-          <ol>
-            <li th:each="image : ${album.images}"><span th:text="${image.name}" /></li>
-          <hr />
+
+            <div th:each="image : ${album.images}">
+              <a th:href="@{/images/{id}(id=${image.id})}">
+                <img th:src="@{/images/{id}(id=${image.id})}" th:alt="${image.name}" style="width:100px;height750px;"/>
+              </a>
+              <span th:text="${image.name}" />
+            </div>
+
         </div>
 
         <div th:if="${album == null}">
